@@ -1,5 +1,6 @@
-
+import 'dart:developer';
 import 'dart:io';
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -96,10 +97,9 @@ class _TaskScreenState extends State<TaskScreen> {
         subtitle: 'abc@gmail.com',
         selected: false.obs)
   ];
-  RxBool isTeacher = true.obs;
-  RxBool isCoordinate = false.obs;
-  RxBool isSelected = false.obs;
-  RxBool isSelected1 = false.obs;
+  RxBool addNew = false.obs;
+  RxBool editTask = false.obs;
+  RxBool showDetail = false.obs;
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
@@ -109,141 +109,13 @@ class _TaskScreenState extends State<TaskScreen> {
           children: [
             CustomCoordinateName(
               coordinateName: 'Coordinate Name',
-              onLogout: () {},
+              onLogout: () {
+                Get.offAllNamed('/LoginScreen');
+              },
             ),
 
-            isSelected1.value == true ?
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  CustomCoordinateName1(
-                    onLogout: () {
 
-                    },
-                  ),
-                  SizedBox(height: 2.h),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          padding: EdgeInsets.only(top: 3.w,left: 3.w,right: 3.w,bottom: 8.2.w),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: Colors.black.withOpacity(0.25)),
-                          ),
-                          child: Column(
-                            children: [
-                              CircleAvatar(
-                                backgroundImage: AssetImage("assets/png/notificationProfile.png"),
-                                radius: 100, // Adjust radius as needed
-                              ),
-                              SizedBox(height: 2.h),
-                              Text("ZEESHAN", style: Constant.textNameBold),
-                              Text("abc@gmail.com", style: Constant.textEmail),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 2.w),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.only(left: 1.w,bottom: 1.5.w,right: 1.w,top: 1.w),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(color: Colors.black.withOpacity(0.25)),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("Task Title/Name", style: Constant.textEmail),
-                                  SizedBox(height: 1.h),
-                                  Text("New upcoming topic", style: Constant.textTitle),
-                                  SizedBox(height: 1.h),
-                                  Text("Task Description", style: Constant.textEmail),
-                                  SizedBox(height: 1.h),
-                                  Text(
-                                    """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu ipsum at leo euismod suscipit eu nec justo. Nulla ultrices in nunc nec vulputate. Praesent condimentum neque id semper efficitur. Suspendisse at nulla eu velit fringilla consequat. Aenean ornare sapien vitae...""",
-                                    style: Constant.textTitle,
-                                  ),
-                                  SizedBox(height: 1.h),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text("Deadline",style: Constant.textEmail,),
-                                      Text("Status",style: Constant.textEmail,),
-                                    ],
-                                  ),
-                                  SizedBox(height: 1.h),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text("01 June 04:30 PM",style: Constant.textMainTitle,),
-                                      Text("Approved",style: Constant.textMainTitle,),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 2.h),
-                            Container(
-padding: EdgeInsets.only(top: .5.w,right: 1.w,left: 1.w,bottom: .5.w),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(14),
-                                border: Border.all(color: MyColor.blueColor),
-                              ),
-                              child: Column(
-                                children: [
-                                  CustomSearchTextField(
-                                    hintText: "Search Task",
-                                    hintStyle: Constant.textEmail,
-                                    onChanged: (value) {
-                                      print("Search value: $value");
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: 9.w,
-                                    child: ListView.builder(
-                                      itemCount: data1.length,
-                                      itemBuilder: (context, index) {
-                                        return Container(
-                                          margin: EdgeInsets.symmetric(vertical: .5.w),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(14),
-                                            color: MyColor.SearchColor,
-                                          ),
-                                          child: ListTile(
-                                            leading: Image.asset(data1[index].imageUrl),
-                                            title: Text(data1[index].title, style: Constant.textMainTitle),
-                                            subtitle: Text(data1[index].subtitle, style: Constant.textEmail),
-                                            trailing: Row(mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Text("Task.docx",style: Constant.textDocs,),
-                                                getHorizontal(.5.w),
-                                                SvgPicture.asset("assets/svg/docs.svg")
-                                              ],
-                                            )
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            )
-
-                :
-            isSelected.value == true
+            editTask.value ||addNew.value
                 ? Expanded(
               child: SingleChildScrollView(
                 child: Container(
@@ -260,7 +132,8 @@ padding: EdgeInsets.only(top: .5.w,right: 1.w,left: 1.w,bottom: .5.w),
                         alignment: Alignment.centerLeft,
                         child: GestureDetector(
                           onTap: () {
-                            isSelected.value = false;
+                           editTask.value? editTask.value = false:addNew.value=false;
+
                           },
                           child: Container(
                             height: 2.5.w,width: 2.5.w,
@@ -454,7 +327,9 @@ padding: EdgeInsets.only(top: .5.w,right: 1.w,left: 1.w,bottom: .5.w),
                                 ),
                                 SizedBox(height: .5.h),
                                 GestureDetector(onTap: () {
-                                  isSelected1.value=true;
+                                  editTask.value? editTask.value = false:addNew.value=false;
+                                // Get.back();
+
                                 },
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
@@ -475,6 +350,134 @@ padding: EdgeInsets.only(top: .5.w,right: 1.w,left: 1.w,bottom: .5.w),
                     ],
                   ),
                 ),
+              ),
+            )
+                :showDetail.value == true ?
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  EditTaskComponent(
+
+                    showDetail: showDetail, addNewOrEdit: editTask,
+                  ),
+                  SizedBox(height: 2.h),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.only(top: 3.w,left: 3.w,right: 3.w,bottom: 8.2.w),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: Colors.black.withOpacity(0.25)),
+                          ),
+                          child: Column(
+                            children: [
+                              CircleAvatar(
+                                backgroundImage: AssetImage("assets/png/notificationProfile.png"),
+                                radius: 100, // Adjust radius as needed
+                              ),
+                              SizedBox(height: 2.h),
+                              Text("ZEESHAN", style: Constant.textNameBold),
+                              Text("abc@gmail.com", style: Constant.textEmail),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 2.w),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(left: 1.w,bottom: 1.5.w,right: 1.w,top: 1.w),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(color: Colors.black.withOpacity(0.25)),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Task Title/Name", style: Constant.textEmail),
+                                  SizedBox(height: 1.h),
+                                  Text("New upcoming topic", style: Constant.textTitle),
+                                  SizedBox(height: 1.h),
+                                  Text("Task Description", style: Constant.textEmail),
+                                  SizedBox(height: 1.h),
+                                  Text(
+                                    """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu ipsum at leo euismod suscipit eu nec justo. Nulla ultrices in nunc nec vulputate. Praesent condimentum neque id semper efficitur. Suspendisse at nulla eu velit fringilla consequat. Aenean ornare sapien vitae...""",
+                                    style: Constant.textTitle,
+                                  ),
+                                  SizedBox(height: 1.h),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text("Deadline",style: Constant.textEmail,),
+                                      Text("Status",style: Constant.textEmail,),
+                                    ],
+                                  ),
+                                  SizedBox(height: 1.h),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text("01 June 04:30 PM",style: Constant.textMainTitle,),
+                                      Text("Approved",style: Constant.textMainTitle,),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 2.h),
+                            Container(
+                              padding: EdgeInsets.only(top: .5.w,right: 1.w,left: 1.w,bottom: .5.w),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14),
+                                border: Border.all(color: MyColor.blueColor),
+                              ),
+                              child: Column(
+                                children: [
+                                  CustomSearchTextField(
+                                    hintText: "Search Task",
+                                    hintStyle: Constant.textEmail,
+                                    onChanged: (value) {
+                                      print("Search value: $value");
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 9.w,
+                                    child: ListView.builder(
+                                      itemCount: data1.length,
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          margin: EdgeInsets.symmetric(vertical: .5.w),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(14),
+                                            color: MyColor.SearchColor,
+                                          ),
+                                          child: ListTile(
+                                              leading: Image.asset(data1[index].imageUrl),
+                                              title: Text(data1[index].title, style: Constant.textMainTitle),
+                                              subtitle: Text(data1[index].subtitle, style: Constant.textEmail),
+                                              trailing: Row(mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text("Task.docx",style: Constant.textDocs,),
+                                                  getHorizontal(.5.w),
+                                                  SvgPicture.asset("assets/svg/docs.svg")
+                                                ],
+                                              )
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             )
                 : Expanded(
@@ -510,19 +513,31 @@ padding: EdgeInsets.only(top: .5.w,right: 1.w,left: 1.w,bottom: .5.w),
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(14),borderSide: BorderSide(color:MyColor.blueColor ))),),
                         ),
-                        Expanded(flex:1,
+                        Expanded(
+                          flex: 1,
                           child: Container(
-                              margin: EdgeInsets.only(left: 1.w),
-                              padding: EdgeInsets.only(top: 1.w,bottom: 1.w),
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(12),color: MyColor.blueColor),
-
-                              child: Center(child: GestureDetector(onTap:() {
-                                isSelected.value=true;
-                              },
-                                  child: Text("Add New Task",style: Constant.textAddNewTask,)))
-
+                            margin: EdgeInsets.only(left: 1.w),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: ElevatedButton(
+                              onPressed: () {
+                             addNew.value=true;                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: MyColor.blueColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                padding: EdgeInsets.symmetric(vertical: 1.5.w),
+                              ),
+                              child: Text(
+                                "Add New Task",
+                                style: Constant.textAddNewTask,
+                              ),
+                            ),
                           ),
                         )
+
                       ],
                     ),
                     getVertical(1.5.w),
@@ -573,7 +588,9 @@ padding: EdgeInsets.only(top: .5.w,right: 1.w,left: 1.w,bottom: .5.w),
                                       buttonText: 'Reject', onPressed: () {  },),
                                     getHorizontal(.8.h),
                                     CustomTaskButton(buttonColor:MyColor.greyColor ,
-                                      buttonText: 'Details', onPressed: () {  },),
+                                      buttonText: 'Details', onPressed: () {
+                                      showDetail.value=true;
+                                      },),
                                   ],
                                 )
 
@@ -584,6 +601,7 @@ padding: EdgeInsets.only(top: .5.w,right: 1.w,left: 1.w,bottom: .5.w),
                   ],) ,
                 )
             ),
+
 
             getVertical(2.w),getHorizontal(2.w)
 

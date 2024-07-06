@@ -14,7 +14,7 @@ class Constant{
   static TextStyle textTeacher=TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w400,color:MyColor.blackBoldColor);
   static TextStyle textTeacherNumber=TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w200,color:MyColor.blackBoldColor,);
   static TextStyle textTotalMatrices=TextStyle(fontSize: 14.sp,fontWeight: FontWeight.w600,color:MyColor.blackBoldColor,);
-  static TextStyle textMarkRead=TextStyle(fontSize: 11.sp,fontWeight: FontWeight.w600,color:MyColor.blueColor,decoration:TextDecoration.underline,decorationColor: MyColor.blueColor);
+  static TextStyle textMarkRead=TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w600,color:MyColor.blueColor,decoration:TextDecoration.underline,decorationColor: MyColor.blueColor);
   static TextStyle textNotification=TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w400,color:MyColor.blackBoldColor,);
   static TextStyle textTitle=TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w600,color:MyColor.blackBoldColor,);
   static TextStyle textEmail=TextStyle(fontSize: 11.sp,fontWeight: FontWeight.w400,color:MyColor.greyWithSign,);

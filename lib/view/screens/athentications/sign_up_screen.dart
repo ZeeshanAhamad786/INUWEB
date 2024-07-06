@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:ctt/controllers/utils/constant.dart';
 import 'package:ctt/controllers/utils/my_color.dart';
-import 'package:ctt/view/screens/athentications/login_screen.dart';
 import 'package:ctt/view/screens/athentications/verification_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,7 +12,7 @@ import '../../custom_widgets/custom_button.dart';
 import '../../custom_widgets/custom_textfield.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+  const SignUpScreen({super.key});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -21,6 +20,12 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final ImagePickerController imagePickerController = Get.put(ImagePickerController());
+
+  @override
+  void dispose() {
+    imagePickerController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +54,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         SizedBox(height: 2.h),
                         GestureDetector(
                           onTap: () {
-                            imagePickerController.getImage();
+                            if (mounted) {
+                              imagePickerController.getImage();
+                            }
                           },
                           child: Stack(
                             children: [
@@ -62,7 +69,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     radius: 60,
                                   );
                                 } else {
-                                  return CircleAvatar(
+                                  return const CircleAvatar(
                                     backgroundImage: AssetImage("assets/png/profileCtt.png"),
                                     radius: 60,
                                   );
@@ -104,12 +111,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         SizedBox(height: 1.5.h),
                         CustomTextField(
                           hintText: "Enter Password",
-                          suffixIcon: Icon(Icons.remove_red_eye_sharp),
+                          suffixIcon: const Icon(Icons.remove_red_eye_sharp),
                         ),
                         SizedBox(height: 1.5.h),
                         CustomTextField(
                           hintText: "Enter Password Again",
-                          suffixIcon: Icon(Icons.remove_red_eye_sharp),
+                          suffixIcon: const Icon(Icons.remove_red_eye_sharp),
                         ),
                         SizedBox(height: 1.5.h),
                         Padding(
@@ -124,7 +131,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           buttonText: "Continue",
                           buttonColor: MyColor.blueColor,
                           onPressed: () {
-                            Get.to(() => const VerificationScreen());
+                            if (mounted) {
+                              Get.to(() => const VerificationScreen());
+                            }
                           },
                         ),
                         SizedBox(height: 2.h),
@@ -138,9 +147,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             Flexible(
                               child: GestureDetector(
                                 onTap: () {
-                                  Get.toNamed('/login');
-
-                                  // Get.to(() => const LoginScreen());
+                                  if (mounted) {
+                                    Get.toNamed('/LoginScreen');
+                                    // Get.to(() => const LoginScreen());
+                                  }
                                 },
                                 child: Text("Sign In", style: Constant.textBlueSign),
                               ),

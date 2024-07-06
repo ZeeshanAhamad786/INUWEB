@@ -1,5 +1,8 @@
+import 'package:ctt/view/screens/athentications/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../controllers/utils/constant.dart';
 import '../../../controllers/utils/my_color.dart';
@@ -32,7 +35,9 @@ class _CoordinatorScreenState extends State<CoordinatorScreen> {
       body:  Padding(
         padding:  EdgeInsets.symmetric(horizontal: 3.w),
         child: Column(children: [
-          CustomCoordinateName(coordinateName: 'Coordinate Name', onLogout: () {  },),
+          CustomCoordinateName(coordinateName: 'Coordinate Name', onLogout: () {
+            Get.to(()=>const LoginScreen());
+          },),
           Expanded(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal:3.h ),

@@ -9,6 +9,7 @@ import '../../../controllers/utils/my_color.dart';
 import '../../../model/teachers_model.dart';
 import '../../custom_widgets/custom_button.dart';
 import '../../custom_widgets/custom_coordinate_name.dart';
+import '../athentications/login_screen.dart';
 class TeachersVerificationsScreen extends StatefulWidget {
 
   const TeachersVerificationsScreen({super.key,   });
@@ -49,7 +50,9 @@ class _TeachersVerificationsScreenState extends State<TeachersVerificationsScree
       body:  Padding(
         padding:  EdgeInsets.symmetric(horizontal: 3.w),
         child: Column(children: [
-          CustomCoordinateName(coordinateName: 'Coordinate Name', onLogout: () {  },),
+          CustomCoordinateName(coordinateName: 'Coordinate Name', onLogout: () {
+            Get.offAllNamed('/LoginScreen');
+          },),
           Expanded(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal:3.h ),
@@ -187,10 +190,11 @@ class _TeachersVerificationsScreenState extends State<TeachersVerificationsScree
                               ),
                               getVertical(1.h),
                               Flexible(
-                                child: CustomTaskButton(buttonColor: MyColor.redColor,
+                                child: CustomApproveButton(buttonColor: MyColor.redColor,
                                   buttonText: 'Reject',
                                   onPressed: () {  },),
-                              )
+                              ),
+
 
                             ],
                           ),

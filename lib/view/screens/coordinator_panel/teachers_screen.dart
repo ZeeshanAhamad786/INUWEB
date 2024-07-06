@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../controllers/utils/constant.dart';
 import '../../../controllers/utils/my_color.dart';
 import '../../../model/teachers_model.dart';
 import '../../custom_widgets/custom_button.dart';
 import '../../custom_widgets/custom_coordinate_name.dart';
+import '../athentications/login_screen.dart';
 class TeachersScreen extends StatefulWidget {
   const TeachersScreen({Key? key}) : super(key: key);
 
@@ -32,7 +35,9 @@ class _TeachersScreenState extends State<TeachersScreen> {
       body:  Padding(
         padding:  EdgeInsets.symmetric(horizontal: 3.w),
         child: Column(children: [
-          CustomCoordinateName(coordinateName: 'Coordinate Name', onLogout: () {  },),
+          CustomCoordinateName(coordinateName: 'Coordinate Name', onLogout: () {
+            Get.offAllNamed('/LoginScreen');
+          },),
           Expanded(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal:3.h ),

@@ -2,6 +2,8 @@ import 'package:ctt/controllers/utils/my_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../controllers/utils/constant.dart';
@@ -9,6 +11,7 @@ import '../../../model/notification_model.dart';
 import '../../custom_widgets/custom_button.dart';
 import '../../custom_widgets/custom_card.dart';
 import '../../custom_widgets/custom_coordinate_name.dart';
+import '../athentications/login_screen.dart';
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
@@ -38,27 +41,39 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: SingleChildScrollView(
           child: Column(crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomCoordinateName(coordinateName: 'Coordinate Name', onLogout: () {  },),
+              CustomCoordinateName(coordinateName: 'Coordinate Name', onLogout: () {
+                Get.offAllNamed('/LoginScreen');
+              },),
               Padding(
-                padding:  EdgeInsets.only(left: 2.3.w,right: 5.w),
+                padding:  EdgeInsets.symmetric(horizontal: 2.h),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Total Metrices",
-                      style: Constant.textTotalMatrices,
-                    ),
-                    getHorizontal(3.w),
-                    Text(
-                      "Notifications",
-                      style: Constant.textTotalMatrices,
-                    ),
-                   getHorizontal(2.w),
-                    GestureDetector(onTap: () {
-                      // Get.to(()=>LoginScreen());
-                    },
+                    Expanded(
+                      flex: 3,
                       child: Text(
-                        "Mark all as read",style:Constant.textMarkRead,
+                        "Total Metrices",
+                        style: Constant.textTotalMatrices,
+                      ),
+                    ),
+                    getHorizontal(6.w),
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        "Notifications",
+                        style: Constant.textTotalMatrices,
+                      ),
+                    ),
+                   // getHorizontal(2.w),
+                    const Expanded(child: SizedBox()),
+                    Flexible(
+                      flex: 1,
+                      child: GestureDetector(onTap: () {
+                        // Get.to(()=>LoginScreen());
+                      },
+                        child: Text(
+                          "Mark all as read",style:Constant.textMarkRead,
+                        ),
                       ),
                     ),
                   ],
