@@ -2,12 +2,12 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:ctt/controllers/utils/constant.dart';
 import 'package:ctt/controllers/utils/my_color.dart';
-import 'package:ctt/view/screens/athentications/verification_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../controllers/image_picker_controller.dart';
+import '../../../controllers/sign_up_controller.dart';
 import '../../custom_widgets/custom_button.dart';
 import '../../custom_widgets/custom_textfield.dart';
 
@@ -20,6 +20,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final ImagePickerController imagePickerController = Get.put(ImagePickerController());
+  SignUpController signUpController =Get.put(SignUpController());
 
   @override
   void dispose() {
@@ -105,18 +106,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ),
                         SizedBox(height: 2.h),
-                        CustomTextField(hintText: "Enter Full Name"),
+                        CustomTextField(
+                          hintText: "Enter Full Name",
+                          controller:signUpController.userNameController,
+                        ),
                         SizedBox(height: 1.5.h),
-                        CustomTextField(hintText: "Enter Email"),
+                        CustomTextField(
+                          hintText: "Enter Email",
+                          controller: signUpController.userEmailController,
+                        ),
                         SizedBox(height: 1.5.h),
                         CustomTextField(
                           hintText: "Enter Password",
+                          isPassword: true,
                           suffixIcon: const Icon(Icons.remove_red_eye_sharp),
+                          controller: signUpController.passwordController,
                         ),
                         SizedBox(height: 1.5.h),
                         CustomTextField(
                           hintText: "Enter Password Again",
+                          isPassword: true,
                           suffixIcon: const Icon(Icons.remove_red_eye_sharp),
+                          controller: signUpController.confirmPasswordController,
                         ),
                         SizedBox(height: 1.5.h),
                         Padding(
@@ -127,15 +138,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ),
                         SizedBox(height: 2.2.h),
+                    Obx(() =>
+                        signUpController.isLoading.value?const Center(child: CircularProgressIndicator(
+                          color: MyColor.blueColor,
+                        )):
                         CustomApproveButton(
-                          buttonText: "Continue",
-                          buttonColor: MyColor.blueColor,
-                          onPressed: () {
-                            if (mounted) {
-                              Get.to(() => const VerificationScreen());
-                            }
-                          },
-                        ),
+                      buttonText: "Continue",
+                      buttonColor: MyColor.blueColor,
+                      onPressed: ()  {
+                             signUpController.signUp(context);
+                      },
+                    ),),
                         SizedBox(height: 2.h),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -149,7 +162,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 onTap: () {
                                   if (mounted) {
                                     Get.toNamed('/LoginScreen');
-                                    // Get.to(() => const LoginScreen());
                                   }
                                 },
                                 child: Text("Sign In", style: Constant.textBlueSign),

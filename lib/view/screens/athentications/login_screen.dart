@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../../controllers/login_controller.dart';
 import '../../custom_widgets/custom_button.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,6 +17,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  LoginController loginController=Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(backgroundColor: MyColor.blueColor,
@@ -39,21 +41,28 @@ class _LoginScreenState extends State<LoginScreen> {
                       getVertical(2.h),
                       Image.asset("assets/png/loginImage.png",height: 200.px,width: 20.w,),
                       getVertical(2.h),
-                      CustomTextField(hintText: "Enter Email",),
+                      CustomTextField(hintText: "Enter Email", controller: loginController.userEmailController,),
                       getVertical(2.h),
-                      CustomTextField(hintText: "Enter Password",suffixIcon: Icon(Icons.remove_red_eye_sharp),),
+                      CustomTextField(hintText: "Enter Password",suffixIcon: Icon(Icons.remove_red_eye_sharp),
+                        isPassword: true,
+                        controller:loginController.passwordController ,),
                       getVertical(1.h),
                       Padding(
                         padding:  EdgeInsets.only(right: 2.h),
                         child: Align(alignment: Alignment.centerRight,
-                            child: Text("Forgot Password?",style: Constant.textForgot,)),
+                            child: GestureDetector(onTap: () {
+                              Get.toNamed('/ForgotScreen');
+                            },
+                                child: Text("Forgot Password?",style: Constant.textForgot,))),
                       ),
                       getVertical(2.2.h),
-                      CustomApproveButton(buttonText: "Login",buttonColor: MyColor.blueColor,
-                          onPressed: (){
-                            Get.offAllNamed('/CoordinatorPanel');
-                            // Get.offAll(()=>const CoordinatorPanel());
-                          }),
+                  Obx(() =>  loginController.isLoading.value?const Center(child: CircularProgressIndicator(color: MyColor.blueColor,))
+                      : CustomApproveButton(buttonText: "Login",buttonColor: MyColor.blueColor,
+                      onPressed: (){
+                        loginController.login(context);
+                        // Get.offAllNamed('/CoordinatorPanel');
+                        // Get.offAll(()=>const CoordinatorPanel());
+                      }),),
                       getVertical(2.h),
                       Row(mainAxisAlignment: MainAxisAlignment.center,
                         children: [

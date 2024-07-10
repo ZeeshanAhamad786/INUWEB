@@ -1,61 +1,77 @@
 import 'package:ctt/controllers/utils/my_color.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-class CustomTextField extends StatelessWidget {
+
+class CustomTextField extends StatefulWidget {
   final String hintText;
-  // final Widget?  prefixIcon;
-  final Widget?  suffixIcon;
-  // final TextEditingController controller;
-  final bool obscureText;
+  final TextEditingController controller;
+  final Widget? suffixIcon;
+  final bool isPassword;
 
   const CustomTextField({
     Key? key,
     required this.hintText,
-    // this.prefixIcon,
     this.suffixIcon,
-    // required this.controller,
-    this.obscureText = false,
+    this.isPassword = false,
+    required this.controller,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return
-      TextFormField(
-        obscureText: obscureText,
-        cursorColor: MyColor.greyColor, // Replace with your CustomColor.mainColor
-        decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: TextStyle(
-              fontSize: 12.px,
-        fontWeight: FontWeight.w600,
-              color:MyColor.greyColor// Replace with your CustomColor.mainEmailIconGreyColor
-          ),
-          contentPadding: EdgeInsets.all(10),
-          // prefixIcon: Transform.scale(
-          //   scale: 0.4,
-          //   child: prefixIcon,
-          //
-          // ),
-          suffixIcon: suffixIcon,
-          // isDense: true,
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
 
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: MyColor.greyBorderColor,),
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: MyColor.greyBorderColor,),
-          ),
+class _CustomTextFieldState extends State<CustomTextField> {
+  bool _obscureText = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _obscureText = widget.isPassword;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: widget.controller,
+      obscureText: widget.isPassword ? _obscureText : false,
+      cursorColor: MyColor.greyColor,
+      decoration: InputDecoration(
+        hintText: widget.hintText,
+        hintStyle: TextStyle(
+          fontSize: 12.px,
+          fontWeight: FontWeight.w600,
+          color: MyColor.greyColor,
         ),
-      );
+        contentPadding: EdgeInsets.all(10),
+        suffixIcon: widget.isPassword ? GestureDetector(
+          onTap: () {
+            setState(() {
+              _obscureText = !_obscureText;
+            });
+          },
+          child: Icon(
+            _obscureText ? Icons.visibility_off : Icons.visibility,
+            color: MyColor.greyColor,
+          ),
+        ) : null,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: MyColor.greyBorderColor),
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: MyColor.greyBorderColor),
+        ),
+      ),
+    );
   }
 }
+
+
 
 //
 
