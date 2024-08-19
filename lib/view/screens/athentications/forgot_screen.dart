@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../../controllers/forgot_password_controller.dart';
 import '../../custom_widgets/custom_button.dart';
 class ForgotScreen extends StatefulWidget {
   const ForgotScreen({super.key});
@@ -16,7 +17,7 @@ class ForgotScreen extends StatefulWidget {
 }
 
 class _ForgotScreenState extends State<ForgotScreen> {
-  TextEditingController  userEmailController=TextEditingController();
+  ForgotPasswordController forgotPasswordController =Get.put(ForgotPasswordController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(backgroundColor: MyColor.blueColor,
@@ -42,13 +43,15 @@ class _ForgotScreenState extends State<ForgotScreen> {
                         getVertical(2.h),
                         Image.asset("assets/png/loginImage.png",height: 200.px,width: 20.w,),
                         getVertical(2.h),
-                        CustomTextField(hintText: "Enter Email", controller: userEmailController,),
+                        CustomTextField(hintText: "Enter Email", controller: forgotPasswordController.emailController,),
                         getVertical(2.2.h),
-                        CustomApproveButton(buttonText: "Done",buttonColor: MyColor.blueColor,
-                            onPressed: (){
-                              Get.offAllNamed('/CoordinatorPanel');
-                              // Get.offAll(()=>const CoordinatorPanel());
-                            }),
+                     Obx(() =>    forgotPasswordController.isLoading.value?const Center(child: CircularProgressIndicator(color: MyColor.blueColor,))
+                         :   CustomApproveButton(buttonText: "Done",buttonColor: MyColor.blueColor,
+                         onPressed: (){
+                           forgotPasswordController.forgotPassword(context);
+                           // Get.offAllNamed('/CoordinatorPanel');
+                           // Get.offAll(()=>const CoordinatorPanel());
+                         }),),
                         getVertical(6.h),getHorizontal(6.h)
                       ],
                     ),

@@ -22,6 +22,7 @@ class LoginController extends GetxController {
 
   Future<void> checkUserStatus() async {
     String userDocId = MySharedPreferences.getString('userDocId');
+    log(userDocId);
     if (userDocId.isNotEmpty) {
       DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(userDocId).get();
       if (userDoc.exists) {
@@ -55,6 +56,14 @@ class LoginController extends GetxController {
     try {
       isLoading.value = true;
 
+      // Email and password match, proceed with Firebase Authentication
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: userEmail,
+        password: userPassword,
+      );
+
+      log("User signed in successfully");
+
       // Fetch user document from Firestore
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('users')
@@ -70,25 +79,16 @@ class LoginController extends GetxController {
       var userDoc = querySnapshot.docs.first;
       var userData = userDoc.data() as Map<String, dynamic>;
 
-      if (userData['userPassword'] != userPassword) {
-        isLoading.value = false;
-        CustomToast.showToast(context, "Incorrect password");
-        return;
-      }
-
       // Save user document ID in SharedPreferences
       MySharedPreferences.setString("userDocId", userDoc.id);
       // Retrieve and log the stored user document ID
       String userDocId = MySharedPreferences.getString('userDocId');
       log("Stored user document ID: $userDocId");
 
-      // Email and password match, proceed with Firebase Authentication
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: userEmail,
-        password: userPassword,
-      );
-
-      log("User signed in successfully");
+      // Update Firestore with the new password
+      await FirebaseFirestore.instance.collection('users').doc(userDoc.id).update({
+        'userPassword': userPassword,
+      });
 
       // Check verification status and navigate accordingly
       bool isVerified = userData['verified'] ?? false;

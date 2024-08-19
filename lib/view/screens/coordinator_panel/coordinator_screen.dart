@@ -18,14 +18,14 @@ class CoordinatorScreen extends StatefulWidget {
 
 class _CoordinatorScreenState extends State<CoordinatorScreen> {
   List<TeachersModel> data=[
-    TeachersModel(imageUrl: "assets/png/notificationProfile.png", userName: "Joe Simt", userEmail: "abc@xyz.com"),
-    TeachersModel(imageUrl: "assets/png/profile1.png", userName: "usman", userEmail: "abc@xyz.com"),
-    TeachersModel(imageUrl: "assets/png/notificationProfile.png", userName: "Joe Simt", userEmail: "abc@xyz.com"),
-    TeachersModel(imageUrl: "assets/png/profile2.png", userName: "zeeshan", userEmail: "abc@xyz.com"),
-    TeachersModel(imageUrl: "assets/png/notificationProfile.png", userName: "Joe Simt", userEmail: "abc@xyz.com"),
-    TeachersModel(imageUrl: "assets/png/profile1.png", userName: "Joe Simt", userEmail: "abc@xyz.com"),
-    TeachersModel(imageUrl: "assets/png/profile2.png", userName: "zeeshan", userEmail: "abc@xyz.com"),
-    TeachersModel(imageUrl: "assets/png/profile1.png", userName: "usman", userEmail: "abc@xyz.com"),
+    TeachersModel(profileImageUrl: "assets/png/notificationProfile.png", userName: "Joe Simt", userEmail: "abc@xyz.com"),
+    TeachersModel(profileImageUrl: "assets/png/profile1.png", userName: "usman", userEmail: "abc@xyz.com"),
+    TeachersModel(profileImageUrl: "assets/png/notificationProfile.png", userName: "Joe Simt", userEmail: "abc@xyz.com"),
+    TeachersModel(profileImageUrl: "assets/png/profile2.png", userName: "zeeshan", userEmail: "abc@xyz.com"),
+    TeachersModel(profileImageUrl: "assets/png/notificationProfile.png", userName: "Joe Simt", userEmail: "abc@xyz.com"),
+    TeachersModel(profileImageUrl: "assets/png/profile1.png", userName: "Joe Simt", userEmail: "abc@xyz.com"),
+    TeachersModel(profileImageUrl: "assets/png/profile2.png", userName: "zeeshan", userEmail: "abc@xyz.com"),
+    TeachersModel(profileImageUrl: "assets/png/profile1.png", userName: "usman", userEmail: "abc@xyz.com"),
 
 
   ];
@@ -98,7 +98,7 @@ class _CoordinatorScreenState extends State<CoordinatorScreen> {
                             children: [
                               // getVertical(3.h),
                               CircleAvatar(
-                                backgroundImage: AssetImage(data[index].imageUrl), // Image for the avatar
+                                backgroundImage: AssetImage(data[index].profileImageUrl), // Image for the avatar
                                 radius: 4.w, // Radius of the avatar
                               ),
                               getVertical(1.2.h),
@@ -113,7 +113,7 @@ class _CoordinatorScreenState extends State<CoordinatorScreen> {
                               getVertical(0.1.h),// Space between the title and email text
                               Flexible(
                                 child: Text(
-                                  data[index].imageUrl, // Email text
+                                  data[index].profileImageUrl, // Email text
                                   style: Constant.textEmail,
                                   textAlign: TextAlign.center, // Center align the text
                                   overflow: TextOverflow.ellipsis, // Handle text overflow

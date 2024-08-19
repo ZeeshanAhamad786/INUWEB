@@ -58,6 +58,7 @@ class SignUpController extends GetxController {
         "userType": "coordinator",
         "verified": false,
         "profileImageUrl": imageUrl,
+        "selected": false,
       });
 
       log("User added to Firestore successfully");

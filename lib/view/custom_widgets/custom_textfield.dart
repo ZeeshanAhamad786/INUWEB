@@ -21,6 +21,8 @@ class CustomTextField extends StatefulWidget {
   State<CustomTextField> createState() => _CustomTextFieldState();
 }
 
+
+
 class _CustomTextFieldState extends State<CustomTextField> {
   bool _obscureText = true;
 
@@ -129,6 +131,7 @@ class CustomTextFormFieldLine extends StatelessWidget {
   final int maxLines;
   final String hintText;
   final TextStyle hintStyle;
+  final TextEditingController controller;
   final Color fillColor;
   final Color borderColor;
 
@@ -137,6 +140,7 @@ class CustomTextFormFieldLine extends StatelessWidget {
     this.maxLines = 1,
     required this.hintText,
     required this.hintStyle,
+    required this.controller,
     required this.fillColor,
     required this.borderColor,
   }) : super(key: key);
@@ -144,6 +148,7 @@ class CustomTextFormFieldLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       maxLines: maxLines,
       decoration: InputDecoration(
         filled: true,

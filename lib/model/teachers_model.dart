@@ -1,10 +1,10 @@
 class TeachersModel{
-  final String imageUrl;
+  final String profileImageUrl;
   final String userName;
   final String userEmail;
 
   TeachersModel({
-    required this.imageUrl,
+    required this.profileImageUrl,
     required this.userName,
     required this.userEmail,
 });
