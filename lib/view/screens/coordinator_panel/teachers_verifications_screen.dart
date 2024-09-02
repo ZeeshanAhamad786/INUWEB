@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../controllers/utils/constant.dart';
 import '../../../controllers/utils/my_color.dart';
-import '../../../model/teachers_model.dart';
 import '../../custom_widgets/custom_button.dart';
 import '../../custom_widgets/custom_coordinate_name.dart';
 
@@ -64,8 +63,8 @@ class _TeachersVerificationsScreenState
                                 fillColor: Colors.white,
                                 prefixIcon: Transform.scale(
                                   scale: 0.5,
-                                  child: SvgPicture.asset(
-                                      "assets/svg/search.svg"),
+                                  child:
+                                  SvgPicture.asset("assets/svg/search.svg"),
                                 ),
                                 hintText: isTeacher.value
                                     ? "Search Teacher"
@@ -88,8 +87,7 @@ class _TeachersVerificationsScreenState
                             flex: 1,
                             child: Container(
                               margin: EdgeInsets.only(left: 1.w),
-                              padding:
-                              EdgeInsets.symmetric(vertical: 0.46.w),
+                              padding: EdgeInsets.symmetric(vertical: 0.46.w),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
                                   color: Colors.white,
@@ -172,11 +170,11 @@ class _TeachersVerificationsScreenState
                         child: StreamBuilder<QuerySnapshot>(
                           stream: FirebaseFirestore.instance
                               .collection('users')
-                              .where(
-                              'userType',
+                              .where('userType',
                               isEqualTo: isTeacher.value
                                   ? 'teacher'
                                   : 'coordinator')
+                              .where('verified', isEqualTo: false)
                               .snapshots(),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
@@ -209,25 +207,29 @@ class _TeachersVerificationsScreenState
                                 var userEmail = userData['userEmail'];
                                 var profileImageUrl =
                                 userData['profileImageUrl'];
+                                var userId = userData.id; // Get user ID
 
                                 return Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 3.w),
+                                  padding:
+                                  EdgeInsets.symmetric(horizontal: 3.w),
                                   decoration: BoxDecoration(
                                     color: MyColor.backgroundColor,
                                     borderRadius: BorderRadius.circular(14),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.black.withOpacity(0.1), // Shadow color
-                                        spreadRadius: 1, // Spread radius of the shadow
-                                        blurRadius: 4, // Blur radius of the shadow
-                                        offset: Offset(1, 1), // Offset of the shadow
+                                        color: Colors.black
+                                            .withOpacity(0.1), // Shadow color
+                                        spreadRadius:
+                                        1, // Spread radius of the shadow
+                                        blurRadius:
+                                        4, // Blur radius of the shadow
+                                        offset: Offset(
+                                            1, 1), // Offset of the shadow
                                       ),
                                     ],
                                   ),
                                   child: Column(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       CircleAvatar(
                                         backgroundImage:
@@ -239,8 +241,8 @@ class _TeachersVerificationsScreenState
                                         child: Text(
                                           userName, // Title text
                                           style: Constant.textName,
-                                          textAlign: TextAlign.center, // Center align the text
-                                          overflow: TextOverflow.ellipsis, // Handle text overflow
+                                          textAlign: TextAlign.center,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                       SizedBox(height: 0.1.h),
@@ -248,8 +250,8 @@ class _TeachersVerificationsScreenState
                                         child: Text(
                                           userEmail, // Email text
                                           style: Constant.textEmail,
-                                          textAlign: TextAlign.center, // Center align the text
-                                          overflow: TextOverflow.ellipsis, // Handle text overflow
+                                          textAlign: TextAlign.center,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                       SizedBox(height: 1.h),
@@ -257,8 +259,13 @@ class _TeachersVerificationsScreenState
                                         child: CustomApproveButton(
                                           buttonColor: MyColor.blueColor,
                                           buttonText: 'Approve',
-                                          onPressed: () {
-                                            // Add approve functionality here
+                                          onPressed: () async {
+                                            await FirebaseFirestore.instance
+                                                .collection('users')
+                                                .doc(userId)
+                                                .update({
+                                              'verified': true,
+                                            });
                                           },
                                         ),
                                       ),
@@ -267,8 +274,13 @@ class _TeachersVerificationsScreenState
                                         child: CustomApproveButton(
                                           buttonColor: MyColor.redColor,
                                           buttonText: 'Reject',
-                                          onPressed: () {
-                                            // Add reject functionality here
+                                          onPressed: () async {
+                                            await FirebaseFirestore.instance
+                                                .collection('users')
+                                                .doc(userId)
+                                                .update({
+                                              'verified': false,
+                                            });
                                           },
                                         ),
                                       ),

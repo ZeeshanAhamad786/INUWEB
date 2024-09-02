@@ -20,8 +20,10 @@ class Constant{
   static TextStyle textEmail=TextStyle(fontSize: 11.sp,fontWeight: FontWeight.w400,color:MyColor.greyWithSign,);
   static TextStyle textName=TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w600,color:MyColor.blackBoldColor,);
   static TextStyle textAddNewTask=TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w400,color:Colors.white,);
-  static TextStyle textMainTitle=TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w400,color:MyColor.blackBoldColor,);
-  static TextStyle textSelect=TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color:MyColor.greyWithSign,);
+  static TextStyle textMainTitle=TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w800,color:MyColor.blackBoldColor,);
+  static TextStyle textName1=TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w500,color:MyColor.blackBoldColor,);
+  static TextStyle textName2=TextStyle(fontSize: 11.5.sp,fontWeight: FontWeight.w100,color:MyColor.blackBoldColor,);
+  static TextStyle textSelect=TextStyle(fontSize: 11.sp,fontWeight: FontWeight.w400,color:MyColor.greyWithSign,);
   static TextStyle textSubmit=TextStyle(fontSize: 11.sp,fontWeight: FontWeight.w400,color:Colors.white,);
   static TextStyle textNameBold=TextStyle(fontSize: 20.sp,fontWeight: FontWeight.w400,color:MyColor.blackBoldColor,);
   static TextStyle textDocs=TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:MyColor.blackBoldColor,);

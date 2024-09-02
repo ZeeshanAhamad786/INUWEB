@@ -1,15 +1,12 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-
 import '../model/task_teacher_selection_model.dart';
-
 class GetTeacherController extends GetxController {
   Stream<List<TaskTeacherSelectionModel>> getTeachers() {
     return FirebaseFirestore.instance
         .collection("users")
-        .where("userType", isEqualTo: "teacher")
+        .where("userType", isEqualTo: "teacher").where('verified', isEqualTo: true)
         .snapshots()
         .map((QuerySnapshot query) {
       List<TaskTeacherSelectionModel> teachers = [];

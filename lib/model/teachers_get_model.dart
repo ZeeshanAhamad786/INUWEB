@@ -5,7 +5,7 @@ class TeachersGetModel {
   final String profileImageUrl;
   final String userName;
   final String userEmail;
-  final String? userTitleName;
+  final String userTitleName;
   DateTime? deadline;
 
   TeachersGetModel({
